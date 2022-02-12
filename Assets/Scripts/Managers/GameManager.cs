@@ -8,12 +8,24 @@ public class GameManager : MonoBehaviour
     private GameObject _sceneGroup;
     private bool _gameStarted;
 
-    public static event Action NewGameStarted;
-    public static event Action GamePaused;
-    public static event Action GameResumed;
-    public static event Action DifficultyChanged;
-    public static event Action GameOver;
+    public static GameManager Instance { get; private set; }
+    public event Action NewGameStarted;
+    public event Action GamePaused;
+    public event Action GameResumed;
+    public event Action DifficultyChanged;
+    public event Action GameOver;
+    public event Action PieceLanded;
 
+
+    private void Awake()
+    {
+        if (Instance != null) 
+        {
+            Destroy(Instance);
+        }
+
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -65,7 +77,12 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void EndGame()
+    public void SpawnNextPiece()
+    {
+        PieceLanded?.Invoke();
+    }
+
+    public void EndGame()
     {
         Destroy(_sceneGroup);
         GameOver?.Invoke();
@@ -74,6 +91,14 @@ public class GameManager : MonoBehaviour
     public void ChangeDifficulty()
     {
         DifficultyChanged?.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        if(Instance == this)
+        {
+            Instance = null;
+        }
     }
 
 

@@ -1,16 +1,12 @@
 using UnityEngine;
-using System;
 
-public class Group : MonoBehaviour
+public class Group: MonoBehaviour
 {
     private bool _canFall;
     private float _stepTime;
 
-    [SerializeField] private float _stepDelay;
-    [SerializeField] private StepDelayValueScriptableObject _stepDelayValue;
+    [SerializeField] private StepDelayValueScriptableObject _stepDelayValueScriptableObject;
     [SerializeField] private GameObject _pivot;
-
-    public static event Action BottomReached;
 
     private bool IsValidGridPos()
     {
@@ -60,12 +56,10 @@ public class Group : MonoBehaviour
 
     private void Start()
     {
-        _stepDelay = _stepDelayValue.stepDelay;
-        _stepTime = Time.time + _stepDelay;
         if (!IsValidGridPos())
         {
             Debug.Log("Game Over");
-            Destroy(gameObject);
+            GameManager.Instance.EndGame();
         }
 
 
@@ -162,7 +156,7 @@ public class Group : MonoBehaviour
 
             Playfield.DeleteFullRows();
 
-            BottomReached?.Invoke();
+            GameManager.Instance.SpawnNextPiece();
 
             enabled = false;
         }
@@ -170,7 +164,7 @@ public class Group : MonoBehaviour
 
     private void AutoFall()
     {
-        _stepTime = Time.time + _stepDelay;
+        _stepTime = Time.time + _stepDelayValueScriptableObject.stepDelay;
         MovePiece(Vector3.down);
     }
 

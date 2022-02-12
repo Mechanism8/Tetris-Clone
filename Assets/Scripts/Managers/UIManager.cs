@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,20 +18,20 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         if (_activated) return;
-        GameManager.NewGameStarted += OnNewGame;
-        GameManager.GamePaused += OnGamePaused;
-        GameManager.GameResumed += OnGameResumed;
-        GameManager.GameOver += OnGameOver;
-        GameManager.DifficultyChanged += OnChangedDifficulty;
+        GameManager.Instance.NewGameStarted += OnNewGame;
+        GameManager.Instance.GamePaused += OnGamePaused;
+        GameManager.Instance.GameResumed += OnGameResumed;
+        GameManager.Instance.GameOver += OnGameOver;
+        GameManager.Instance.DifficultyChanged += OnChangedDifficulty;
     }
 
     private void OnDisable()
     {
-        GameManager.NewGameStarted -= OnNewGame;
-        GameManager.GamePaused -= OnGamePaused;
-        GameManager.GameResumed -= OnGameResumed;
-        GameManager.GameOver -= OnGameOver;
-        GameManager.DifficultyChanged -= OnChangedDifficulty;
+        GameManager.Instance.NewGameStarted -= OnNewGame;
+        GameManager.Instance.GamePaused -= OnGamePaused;
+        GameManager.Instance.GameResumed -= OnGameResumed;
+        GameManager.Instance.GameOver -= OnGameOver;
+        GameManager.Instance.DifficultyChanged -= OnChangedDifficulty;
     }
 
     private void Start()
@@ -47,14 +48,21 @@ public class UIManager : MonoBehaviour
     {
         _difficultyLabel.text = _difficultySlider.value.ToString();
         _difficultyLevelScriptableObject.difficultyLevel = (int) _difficultySlider.value;
-        Debug.Log(_difficultyLevelScriptableObject.difficultyLevel);
-        Debug.Log(_difficultySlider.value);
     }
 
     private void OnGameOver()
     {
-        _gameOverLabel.SetActive(true);
         _infoPanel.SetActive(false);
+        StartCoroutine("GameOver");        
+        
+    }
+
+    private IEnumerator GameOver()
+    {
+        _gameOverLabel.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        _gameOverLabel.SetActive(false);
+        ActivateMenu();
     }
 
     private void OnGameResumed()

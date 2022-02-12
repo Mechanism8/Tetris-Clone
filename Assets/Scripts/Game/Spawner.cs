@@ -19,13 +19,13 @@ public class Spawner : MonoBehaviour
     private void OnEnable()
     {
         if (_activated) return;
-        Group.BottomReached += SpawnNext;
+        GameManager.Instance.PieceLanded += SpawnNext;
         _activated = true;
     }
 
     private void OnDisable()
     {
-        Group.BottomReached -= SpawnNext;
+        GameManager.Instance.PieceLanded -= SpawnNext;
         _activated = false;
     }
 

@@ -3,11 +3,12 @@ using TMPro;
 
 public class DifficultyLevelManager : MonoBehaviour
 {
-    public TextMeshProUGUI difficultyLevelCounter;
-    private int _maxLevel = 9;
-    private bool _activated;
+    [SerializeField] private TextMeshProUGUI _difficultyLevelCounter;
     [SerializeField] private StepDelayValueScriptableObject _stepDelayValue;
     [SerializeField] private DifficultyLevelScriptableObject _difficultyLevelScriptableObject;
+    private int _maxLevel = 9;
+    private bool _activated;
+    
 
 
     private void Start()
@@ -20,15 +21,16 @@ public class DifficultyLevelManager : MonoBehaviour
     {
         if (_activated) return;
         ScoreManager.ScoreUpdated += IncreaseLevel;
-        GameManager.DifficultyChanged += SetDifficulty;
+        GameManager.Instance.NewGameStarted += SetDifficulty;
+        GameManager.Instance.GameResumed += SetDifficulty;
         _activated = true;
     }
 
     private void OnDisable()
     {
         ScoreManager.ScoreUpdated -= IncreaseLevel;
-        GameManager.DifficultyChanged -= SetDifficulty;
-        _activated = false;
+        GameManager.Instance.NewGameStarted -= SetDifficulty;
+        GameManager.Instance.GameResumed -= SetDifficulty;
     }
 
     private void IncreaseLevel()
@@ -43,7 +45,7 @@ public class DifficultyLevelManager : MonoBehaviour
     private void SetDifficulty()
     {
         SetStepDelay();
-        difficultyLevelCounter.SetText(_difficultyLevelScriptableObject.difficultyLevel.ToString());
+        _difficultyLevelCounter.SetText(_difficultyLevelScriptableObject.difficultyLevel.ToString());
     }
 
     public void SetStepDelay()

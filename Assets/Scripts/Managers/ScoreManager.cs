@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (_activated) return;
         Playfield.RowCleared += UpdateScore;
-        GameManager.NewGameStarted += ResetScore;
+        GameManager.Instance.NewGameStarted += ResetScore;
         _activated = true;
 
     }
@@ -22,7 +22,7 @@ public class ScoreManager : MonoBehaviour
     private void OnDisable()
     {
         Playfield.RowCleared -= UpdateScore;
-        GameManager.NewGameStarted -= ResetScore;
+        GameManager.Instance.NewGameStarted -= ResetScore;
         _activated = false;
     }
 
