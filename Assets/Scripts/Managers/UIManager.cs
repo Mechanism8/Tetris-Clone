@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _infoPanel;
     [SerializeField] private GameObject _menuPanel;
     [SerializeField] private GameObject _gameOverLabel;
+    [SerializeField] private Button _resumeButton;
     [SerializeField] private DifficultyLevelScriptableObject _difficultyLevelScriptableObject;
-
 
     private bool _activated;
 
@@ -37,6 +38,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         ActivateMenu();
+        _resumeButton.interactable = false;
     }
 
     private void ActivateMenu()
@@ -53,7 +55,7 @@ public class UIManager : MonoBehaviour
     private void OnGameOver()
     {
         _infoPanel.SetActive(false);
-        StartCoroutine("GameOver");        
+        StartCoroutine("GameOver");
         
     }
 
@@ -62,6 +64,7 @@ public class UIManager : MonoBehaviour
         _gameOverLabel.SetActive(true);
         yield return new WaitForSeconds(3f);
         _gameOverLabel.SetActive(false);
+        _resumeButton.interactable = false;
         ActivateMenu();
     }
 
@@ -84,6 +87,7 @@ public class UIManager : MonoBehaviour
     {
         DeactivateMenu();
         ActivateInfoPanel();
+        _resumeButton.interactable = true;
     }
 
     private void ActivateInfoPanel()

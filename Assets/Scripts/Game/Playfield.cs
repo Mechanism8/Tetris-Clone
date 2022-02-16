@@ -8,7 +8,6 @@ public class Playfield : MonoBehaviour
     public static Transform[,] grid = new Transform[width, height];
     public static event Action RowCleared;
 
-
     public static Vector3 RoundVector(Vector3 vector)
     {
         return new Vector3(Mathf.Round(vector.x), Mathf.Round(vector.y), 0);
@@ -24,7 +23,7 @@ public class Playfield : MonoBehaviour
 
     public static void DeleteRow(int y)
     {
-        for (int x = 0; x < width; ++x)
+        for (int x = 0; x < width; x++)
         {
             Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
@@ -33,7 +32,7 @@ public class Playfield : MonoBehaviour
 
     public static void DecreaseRow(int y)
     {
-        for (int x = 0; x < width; ++x)
+        for (int x = 0; x < width; x++)
         {
             if (grid[x, y] != null)
             {
@@ -47,7 +46,7 @@ public class Playfield : MonoBehaviour
 
     public static void DecreaseRowsAbove(int y)
     {
-        for (int i = y; i < height; ++i)
+        for (int i = y; i < height; i++)
         {
             DecreaseRow(i);
         }
@@ -55,7 +54,7 @@ public class Playfield : MonoBehaviour
 
     public static bool IsRowFull(int y)
     {
-        for (int x = 0; x < width; ++x)
+        for (int x = 0; x < width; x++)
         {
             if (grid[x, y] == null)
             {
@@ -68,14 +67,14 @@ public class Playfield : MonoBehaviour
 
     public static void DeleteFullRows()
     {
-        for (int y = 0; y < height; ++y)
+        for (int y = 0; y < height; y++)
         {
             if (IsRowFull(y))
             {
                 RowCleared?.Invoke();
                 DeleteRow(y);
                 DecreaseRowsAbove(y+1);
-                --y;
+                y--;
             }
         }
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Group: MonoBehaviour
+public class Group : MonoBehaviour
 {
     private bool _canFall;
     private float _stepTime;
@@ -12,6 +12,7 @@ public class Group: MonoBehaviour
     {
         foreach (Transform child in transform)
         {
+            if (child.tag == "Pivot") continue;
             Vector3 v = Playfield.RoundVector(child.position);
 
             if (!Playfield.InsideBorder(v))
@@ -25,15 +26,14 @@ public class Group: MonoBehaviour
                 return false;
             }
         }
-
         return true;
     }
 
     private void UpdateGrid()
     {
-        for (int y = 0; y < Playfield.height; ++y)
+        for (int y = 0; y < Playfield.height; y++)
         {
-            for (int x = 0; x < Playfield.width; ++x)
+            for (int x = 0; x < Playfield.width; x++)
             {
                 if (Playfield.grid[x, y] != null)
                 {
@@ -59,7 +59,12 @@ public class Group: MonoBehaviour
         if (!IsValidGridPos())
         {
             Debug.Log("Game Over");
+            Destroy(gameObject);
             GameManager.Instance.EndGame();
+        }
+        else
+        {
+            UpdateGrid();
         }
 
 
@@ -86,7 +91,7 @@ public class Group: MonoBehaviour
         }
         else if (Input.GetButtonDown("Jump"))
         {
-            QuickFall();
+            HardDrop();
         }
 
         if (Time.time >= _stepTime)
@@ -108,6 +113,7 @@ public class Group: MonoBehaviour
         else
         {
             transform.RotateAround(_pivot.transform.position, new Vector3(0, 0, 1), -90);
+
         }
     }
 
@@ -169,7 +175,7 @@ public class Group: MonoBehaviour
     }
 
 
-    private void QuickFall()
+    private void HardDrop()
     {
         while (_canFall)
         {

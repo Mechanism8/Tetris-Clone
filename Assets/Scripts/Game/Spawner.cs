@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
     private bool _activated;
     private int _nextPieceID;
     private Texture2D _nextPiecePreview;
+    private Vector3 _spawnPosition;
     public static event System.Action<Texture2D> NextPieceUpdated;
 
 
@@ -31,8 +32,16 @@ public class Spawner : MonoBehaviour
 
     public void SpawnNext()
     {
-        var instance = Instantiate(groups[_nextPieceID], transform.position, Quaternion.identity);
-        instance.transform.SetParent(this.transform.parent);
+        if (groups[_nextPieceID].tag != "I" || groups[_nextPieceID].tag != "O")
+        {
+            _spawnPosition = transform.position + Vector3.down;
+        }
+        else
+        {
+            _spawnPosition = transform.position;
+        }
+        var instance = Instantiate(groups[_nextPieceID], _spawnPosition, Quaternion.identity);
+        instance.transform.SetParent(transform.parent);
         _nextPieceID = Random.Range(0, groups.Length);
         SetNextPiecePreview(_nextPieceID);
     }
