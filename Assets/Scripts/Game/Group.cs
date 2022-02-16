@@ -58,7 +58,6 @@ public class Group : MonoBehaviour
     {
         if (!IsValidGridPos())
         {
-            Debug.Log("Game Over");
             Destroy(gameObject);
             GameManager.Instance.EndGame();
         }
