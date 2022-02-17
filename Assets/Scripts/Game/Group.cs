@@ -86,7 +86,7 @@ public class Group : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            MovePiece(Vector3.down);
+            MovePiece(Vector3.down, isManual: true);
         }
         else if (Input.GetButtonDown("Jump"))
         {
@@ -116,12 +116,12 @@ public class Group : MonoBehaviour
         }
     }
 
-    private void MovePiece(Vector3 direction)
+    private void MovePiece(Vector3 direction, bool isManual = false)
     {
         transform.Translate(direction, Space.World);
         if (direction == Vector3.down)
         {
-            CheckVerticalMovement(direction);
+            CheckVerticalMovement(direction, isManual);
         }
         else
         {
@@ -147,12 +147,16 @@ public class Group : MonoBehaviour
         transform.Translate(direction * -1, Space.World);
     }
 
-    private void CheckVerticalMovement(Vector3 direction)
+    private void CheckVerticalMovement(Vector3 direction, bool isManual)
     {
         if (IsValidGridPos())
         {
             UpdateGrid();
             _canFall = true;
+            if (isManual)
+            {
+                GameManager.Instance.IncreaseScore(1);
+            }
         }
         else
         {
@@ -177,7 +181,7 @@ public class Group : MonoBehaviour
     {
         while (_canFall)
         {
-            MovePiece(Vector3.down);
+            MovePiece(Vector3.down, isManual: true);
         }
     }
 }

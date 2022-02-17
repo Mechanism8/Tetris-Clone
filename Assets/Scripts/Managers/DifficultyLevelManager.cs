@@ -20,7 +20,7 @@ public class DifficultyLevelManager : MonoBehaviour
     private void OnEnable()
     {
         if (_activated) return;
-        ScoreManager.ScoreUpdated += IncreaseLevel;
+        LineManager.LineLimitReached += IncreaseLevel;
         GameManager.Instance.NewGameStarted += SetDifficulty;
         GameManager.Instance.GameResumed += SetDifficulty;
         _activated = true;
@@ -28,7 +28,7 @@ public class DifficultyLevelManager : MonoBehaviour
 
     private void OnDisable()
     {
-        ScoreManager.ScoreUpdated -= IncreaseLevel;
+        LineManager.LineLimitReached -= IncreaseLevel;
         GameManager.Instance.NewGameStarted -= SetDifficulty;
         GameManager.Instance.GameResumed -= SetDifficulty;
     }

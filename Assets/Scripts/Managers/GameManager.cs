@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public event Action DifficultyChanged;
     public event Action GameOver;
     public event Action PieceLanded;
+    public event Action<int> ScoreIncreased;
 
 
     private void Awake()
@@ -80,6 +81,11 @@ public class GameManager : MonoBehaviour
     public void SpawnNextPiece()
     {
         PieceLanded?.Invoke();
+    }
+
+    public void IncreaseScore(int score)
+    {
+        ScoreIncreased?.Invoke(score);
     }
 
     public void EndGame()

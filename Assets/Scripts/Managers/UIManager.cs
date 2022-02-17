@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _menuPanel;
     [SerializeField] private GameObject _gameOverLabel;
     [SerializeField] private Button _resumeButton;
+    [SerializeField] private Button _pauseButton;
     [SerializeField] private DifficultyLevelScriptableObject _difficultyLevelScriptableObject;
 
     private bool _activated;
@@ -71,6 +72,7 @@ public class UIManager : MonoBehaviour
     private void OnGameResumed()
     {
         DeactivateMenu();
+        _pauseButton.interactable = true;
     }
 
     private void DeactivateMenu()
@@ -81,6 +83,7 @@ public class UIManager : MonoBehaviour
     private void OnGamePaused()
     {
         ActivateMenu();
+        _pauseButton.interactable = false;
     }
 
     private void OnNewGame()
@@ -88,6 +91,7 @@ public class UIManager : MonoBehaviour
         DeactivateMenu();
         ActivateInfoPanel();
         _resumeButton.interactable = true;
+        _pauseButton.interactable = true;
     }
 
     private void ActivateInfoPanel()

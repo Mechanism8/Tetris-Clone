@@ -75,6 +75,7 @@ public class Playfield : MonoBehaviour
                 DecreaseRowsAbove(y+1);
                 y--;
                 RowCleared?.Invoke();
+                GameManager.Instance.IncreaseScore(100);
             }
         }
     }
