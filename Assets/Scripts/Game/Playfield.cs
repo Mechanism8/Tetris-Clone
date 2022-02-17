@@ -70,11 +70,11 @@ public class Playfield : MonoBehaviour
         for (int y = 0; y < height; y++)
         {
             if (IsRowFull(y))
-            {
-                RowCleared?.Invoke();
+            {                
                 DeleteRow(y);
                 DecreaseRowsAbove(y+1);
                 y--;
+                RowCleared?.Invoke();
             }
         }
     }

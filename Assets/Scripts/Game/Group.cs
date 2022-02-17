@@ -157,11 +157,10 @@ public class Group : MonoBehaviour
         else
         {
             RevertMovement(direction);
-            _canFall = false;
-
-            Playfield.DeleteFullRows();
+            _canFall = false;           
 
             GameManager.Instance.SpawnNextPiece();
+            Playfield.DeleteFullRows();
 
             enabled = false;
         }
