@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _sceneGroupPrefab;
     private GameObject _sceneGroup;
     private bool _gameStarted;
+    private bool _paused;
 
     public static GameManager Instance { get; private set; }
     public event Action NewGameStarted;
@@ -61,14 +62,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void TogglePause()
+    {
+        if (!_paused)
+        {           
+            PauseGame();
+        }
+        else
+        {           
+            ResumeGame();
+        }
+    }
+
     public void PauseGame()
     {
+        _paused = true;
         Time.timeScale = 0f;
         GamePaused?.Invoke();
     }
 
     public void ResumeGame()
     {
+        _paused = false;
         GameResumed?.Invoke();
         Time.timeScale = 1f;
     }

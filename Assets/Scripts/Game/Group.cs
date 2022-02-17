@@ -88,9 +88,13 @@ public class Group : MonoBehaviour
         {
             MovePiece(Vector3.down, isManual: true);
         }
-        else if (Input.GetButtonDown("Jump"))
+        else if (Input.GetButtonDown("Hard Drop"))
         {
             HardDrop();
+        }
+        else if (Input.GetButtonDown("Cancel"))
+        {
+            GameManager.Instance.TogglePause();
         }
 
         if (Time.time >= _stepTime)
