@@ -1,9 +1,13 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Group : MonoBehaviour
 {
     private bool _canFall;
     private float _stepTime;
+    private float _timer = 0f;
+    private float _moveDelay = .1f;
 
     [SerializeField] private StepDelayValueScriptableObject _stepDelayValueScriptableObject;
     [SerializeField] private GameObject _pivot;
@@ -71,22 +75,25 @@ public class Group : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        _timer += 1 * Time.deltaTime;
+        if (Input.GetKey(KeyCode.LeftArrow) && _timer > _moveDelay)
         {
             MovePiece(Vector3.left);
+            _timer = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) && _timer > _moveDelay)
         {
             MovePiece(Vector3.right);
+            _timer = 0;
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             RotatePiece();
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow) && _timer > _moveDelay)
         {
             MovePiece(Vector3.down, isManual: true);
+            _timer = 0;
         }
         else if (Input.GetButtonDown("Hard Drop"))
         {
