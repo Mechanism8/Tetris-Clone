@@ -80,4 +80,25 @@ public class Playfield : MonoBehaviour
         }
     }
 
+    public static bool IsValidGridPos(Transform shape)
+    {
+        foreach (Transform child in shape)
+        {
+            if (child.tag == "Pivot") continue;
+            Vector3 v = RoundVector(child.position);
+
+            if (InsideBorder(v))
+            {
+                return false;
+            }
+
+            if (grid[(int)v.x, (int)v.y] != null
+                && grid[(int)v.x, (int)v.y].parent != shape)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

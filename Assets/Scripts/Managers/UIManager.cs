@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GameResumed += OnGameResumed;
         GameManager.Instance.GameOver += OnGameOver;
         GameManager.Instance.DifficultyChanged += OnChangedDifficulty;
+        _activated = true;
     }
 
     private void OnDisable()

@@ -12,26 +12,6 @@ public class Group : MonoBehaviour
     [SerializeField] private StepDelayValueScriptableObject _stepDelayValueScriptableObject;
     [SerializeField] private GameObject _pivot;
 
-    private bool IsValidGridPos()
-    {
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "Pivot") continue;
-            Vector3 v = Playfield.RoundVector(child.position);
-
-            if (!Playfield.InsideBorder(v))
-            {
-                return false;
-            }
-
-            if (Playfield.grid[(int)v.x, (int)v.y] != null
-                && Playfield.grid[(int)v.x, (int)v.y].parent != transform)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 
     private void UpdateGrid()
     {
@@ -52,7 +32,7 @@ public class Group : MonoBehaviour
 
         foreach (Transform child in transform)
         {
-            if (child.tag == "Pivot") continue;
+            if (CompareTag("Pivot")) continue;
             Vector3 v = Playfield.RoundVector(child.position);
             Playfield.grid[(int)v.x, (int)v.y] = child;
         }
@@ -60,7 +40,7 @@ public class Group : MonoBehaviour
 
     private void Start()
     {
-        if (!IsValidGridPos())
+        if (!Playfield.IsValidGridPos(transform))
         {
             Destroy(gameObject);
             GameManager.Instance.EndGame();
@@ -116,7 +96,7 @@ public class Group : MonoBehaviour
     {
         transform.RotateAround(_pivot.transform.position, new Vector3(0, 0, 1), 90);
 
-        if (IsValidGridPos())
+        if (Playfield.IsValidGridPos(transform))
         {
             UpdateGrid();
         }
@@ -143,7 +123,7 @@ public class Group : MonoBehaviour
 
     private void CheckHorizontalMovement(Vector3 direction)
     {
-        if (IsValidGridPos())
+        if (Playfield.IsValidGridPos(transform))
         {
             UpdateGrid();
         }
@@ -160,7 +140,7 @@ public class Group : MonoBehaviour
 
     private void CheckVerticalMovement(Vector3 direction, bool isManual)
     {
-        if (IsValidGridPos())
+        if (Playfield.IsValidGridPos(transform))
         {
             UpdateGrid();
             _canFall = true;
