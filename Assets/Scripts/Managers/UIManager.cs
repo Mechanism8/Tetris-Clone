@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour
     {
         _gameOverLabel.SetActive(true);
         yield return new WaitForSeconds(3f);
+        _difficultySlider.value = _difficultyLevelScriptableObject.difficultyLevel;
+        _difficultyLabel.text = _difficultyLevelScriptableObject.difficultyLevel.ToString();
         _gameOverLabel.SetActive(false);
         _resumeButton.interactable = false;
         _menuPanel.SetActive(true);
@@ -77,6 +79,8 @@ public class UIManager : MonoBehaviour
     {
         _menuPanel.SetActive(true);
         _pauseButton.interactable = false;
+        _difficultySlider.value = _difficultyLevelScriptableObject.difficultyLevel;
+        _difficultyLabel.text = _difficultyLevelScriptableObject.difficultyLevel.ToString();
     }
 
     private void OnNewGame()
