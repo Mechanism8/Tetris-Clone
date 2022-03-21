@@ -54,14 +54,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DeactivateAllManagers()
-    {
-        foreach (var manager in _managers)
-        {
-            manager.SetActive(false);
-        }
-    }
-
     public void TogglePause()
     {
         if (!_paused)

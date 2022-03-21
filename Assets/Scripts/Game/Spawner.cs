@@ -32,7 +32,7 @@ public class Spawner : MonoBehaviour
 
     public void SpawnNext()
     {
-        if (groups[_nextPieceID].tag != "I" || groups[_nextPieceID].tag != "O")
+        if (!groups[_nextPieceID].CompareTag("I")||!groups[_nextPieceID].CompareTag("O"))
         {
             _spawnPosition = transform.position + Vector3.down;
         }
