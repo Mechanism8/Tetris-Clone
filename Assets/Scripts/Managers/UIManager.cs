@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GameResumed += OnGameResumed;
         GameManager.Instance.GameOver += OnGameOver;
         GameManager.Instance.DifficultyChanged += OnChangedDifficulty;
+        _activated = true;
     }
 
     private void OnDisable()
@@ -34,17 +35,13 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GameResumed -= OnGameResumed;
         GameManager.Instance.GameOver -= OnGameOver;
         GameManager.Instance.DifficultyChanged -= OnChangedDifficulty;
+        _activated = false;
     }
 
     private void Start()
     {
-        ActivateMenu();
-        _resumeButton.interactable = false;
-    }
-
-    private void ActivateMenu()
-    {
         _menuPanel.SetActive(true);
+        _resumeButton.interactable = false;
     }
 
     private void OnChangedDifficulty()
@@ -65,31 +62,30 @@ public class UIManager : MonoBehaviour
     {
         _gameOverLabel.SetActive(true);
         yield return new WaitForSeconds(3f);
+        _difficultySlider.value = _difficultyLevelScriptableObject.difficultyLevel;
+        _difficultyLabel.text = _difficultyLevelScriptableObject.difficultyLevel.ToString();
         _gameOverLabel.SetActive(false);
         _resumeButton.interactable = false;
-        ActivateMenu();
+        _menuPanel.SetActive(true);
     }
 
     private void OnGameResumed()
     {
-        DeactivateMenu();
-        _pauseButton.interactable = true;
-    }
-
-    private void DeactivateMenu()
-    {
         _menuPanel.SetActive(false);
+        _pauseButton.interactable = true;
     }
 
     private void OnGamePaused()
     {
-        ActivateMenu();
+        _menuPanel.SetActive(true);
         _pauseButton.interactable = false;
+        _difficultySlider.value = _difficultyLevelScriptableObject.difficultyLevel;
+        _difficultyLabel.text = _difficultyLevelScriptableObject.difficultyLevel.ToString();
     }
 
     private void OnNewGame()
     {
-        DeactivateMenu();
+        _menuPanel.SetActive(false);
         _infoPanel.SetActive(true);
         _helpPanel.SetActive(true);
         _resumeButton.interactable = true;

@@ -32,7 +32,7 @@ public class Spawner : MonoBehaviour
 
     public void SpawnNext()
     {
-        if (groups[_nextPieceID].tag != "I" || groups[_nextPieceID].tag != "O")
+        if (!groups[_nextPieceID].CompareTag("I")||!groups[_nextPieceID].CompareTag("O"))
         {
             _spawnPosition = transform.position + Vector3.down;
         }
@@ -58,5 +58,4 @@ public class Spawner : MonoBehaviour
         _nextPiecePreview = RuntimePreviewGenerator.GenerateModelPreview(groups[id].transform, 512, 512);
         NextPieceUpdated?.Invoke(_nextPiecePreview);
     }
-
 }

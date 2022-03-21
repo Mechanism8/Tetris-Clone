@@ -31,6 +31,7 @@ public class DifficultyLevelManager : MonoBehaviour
         LineManager.LineLimitReached -= IncreaseLevel;
         GameManager.Instance.NewGameStarted -= SetDifficulty;
         GameManager.Instance.GameResumed -= SetDifficulty;
+        _activated = false;
     }
 
     private void IncreaseLevel()
