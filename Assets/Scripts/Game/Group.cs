@@ -174,13 +174,14 @@ public class Group : MonoBehaviour
         else
         {
             RevertMovement(direction);
-            _canFall = false;           
-            Playfield.DeleteFullRows();
+            _canFall = false;
 
-            enabled = false;            
             if (_spawnCount == 0) GameManager.Instance.SpawnNextPiece();
             _spawnCount++;
 
+            Playfield.DeleteFullRows();
+           
+            enabled = false;                                  
         }
     }
 
