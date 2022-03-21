@@ -58,5 +58,4 @@ public class Spawner : MonoBehaviour
         _nextPiecePreview = RuntimePreviewGenerator.GenerateModelPreview(groups[id].transform, 512, 512);
         NextPieceUpdated?.Invoke(_nextPiecePreview);
     }
-
 }

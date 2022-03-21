@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Group : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Group : MonoBehaviour
     private float _stepTime;
     private float _timer = 0f;
     private float _moveDelay = .1f;
+    private int _spawnCount = 0;
 
     [SerializeField] private StepDelayValueScriptableObject _stepDelayValueScriptableObject;
     [SerializeField] private GameObject _pivot;
@@ -16,7 +18,7 @@ public class Group : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            if (child.tag == "Pivot") continue;
+            if (child.CompareTag("Pivot")) continue;
             Vector3 v = Playfield.RoundVector(child.position);
 
             if (!Playfield.InsideBorder(v))
@@ -52,7 +54,7 @@ public class Group : MonoBehaviour
 
         foreach (Transform child in transform)
         {
-            if (child.tag == "Pivot") continue;
+            if (child.CompareTag("Pivot")) continue;
             Vector3 v = Playfield.RoundVector(child.position);
             Playfield.grid[(int)v.x, (int)v.y] = child;
         }
@@ -138,7 +140,7 @@ public class Group : MonoBehaviour
         {
             CheckHorizontalMovement(direction);
         }
-        
+
     }
 
     private void CheckHorizontalMovement(Vector3 direction)
@@ -173,17 +175,18 @@ public class Group : MonoBehaviour
         {
             RevertMovement(direction);
             _canFall = false;           
-
-            GameManager.Instance.SpawnNextPiece();
             Playfield.DeleteFullRows();
 
-            enabled = false;
+            enabled = false;            
+            if (_spawnCount == 0) GameManager.Instance.SpawnNextPiece();
+            _spawnCount++;
+
         }
     }
 
     private void AutoFall()
     {
-        _stepTime = Time.time + _stepDelayValueScriptableObject.stepDelay;
+       _stepTime = Time.time + _stepDelayValueScriptableObject.stepDelay;
         MovePiece(Vector3.down);
     }
 
